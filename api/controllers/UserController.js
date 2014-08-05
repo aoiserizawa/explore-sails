@@ -44,7 +44,8 @@ var UserController = {
             // the code bellow is commented because we created this in polocies already 
             //req.session.flash = {};
         });
-   }
+   },
+   
    show: function(req, res, next){
 
         // the function bellow is from the User model
