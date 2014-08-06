@@ -38,8 +38,8 @@ var UserController = {
 
                 return res.redirect('/user/new');
             }
-
-            res.json(user);
+            res.redirect('/user/show/'+user.id);
+            //res.json(user);
 
             // the code bellow is commented because we created this in polocies already 
             //req.session.flash = {};
@@ -49,13 +49,19 @@ var UserController = {
    show: function(req, res, next){
 
         // the function bellow is from the User model
-        User.findOne(req.param(id), function foundUser (err, user) {
+                                                        // err is undefined though
+                                                        // but it is needed call back takes two arguements
+                                                        // it assumes error and use                                              
+        var foundUser = function(err, user){
+            console.log(user);
             if(err) return next(err);
             if(!user) return next();
             res.view({
                 user:user
             });
-        });
+        };
+
+        User.findOne(req.param('id'), foundUser);
    }
 
 };
