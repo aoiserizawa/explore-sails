@@ -46,8 +46,7 @@ var UserController = {
         });
    },
    
-   show: function(req, res, next){
-
+    show: function(req, res, next){
         // the function bellow is from the User model
                                                         // err is undefined though
                                                         // but it is needed call back takes two arguements
@@ -62,8 +61,17 @@ var UserController = {
         };
 
         User.findOne(req.param('id'), foundUser);
+   },
+   index: function(req, res, next){
+        // get an array of all the users in the Users Collection
+        User.find(function (err, users){
+            if(err) next(err);
+            // pass the array to index.ejs
+            res.view({
+                users: users
+            });
+        });
    }
-
 };
 
 module.exports = UserController;
