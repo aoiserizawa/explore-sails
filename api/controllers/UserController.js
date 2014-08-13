@@ -24,7 +24,6 @@ var UserController = {
         res.view();
    },
    create: function(req, res, next){
-    
         // the function bellow is from the User model
         User.create(req.params.all(), function userCreated(err, user){
             //OLD error handling
@@ -71,7 +70,45 @@ var UserController = {
                 users: users
             });
         });
+   },
+
+   // render the edit view (e.g /views/edit.ejs)
+   edit: function (req, res, next){
+
+    // find the user from the id passed in via params
+    User.findOne(req.param('id'),function foundUser(err, user){
+        if(err) return next(err);
+        if(!user) return next('User doesn\'t exist');
+        res.view({
+            user:user
+        });
+    });
+   },
+
+    update: function (req, res, next){
+        User.update(req.param('id'), req.params.all(), function userUpdated(err){
+            if(err){
+                console.log(err);
+                return res.redirect('/user/edit/'+req.param('id'));
+            }
+            res.redirect('/user/show/'+req.param('id'));
+        });
+   }, 
+
+   destroy: function (req, res, next){
+        User.findOne(req.param('id'), function foundUser(err, user){
+            if(err) return next(err);
+            if(!user) return next('User doesn\'t exist');
+
+            User.destroy(req.param('id'),function userDestroyed(err){
+                if(err) return next(err);
+            });
+
+            res.redirect('/user');
+
+        });
    }
+
 };
 
 module.exports = UserController;
