@@ -19,7 +19,13 @@ module.exports.policies = {
 
   // flash is located in api>policies>flash.js
   
-  '*': 'flash'
+  '*': 'flash',
+
+  user:{
+  	'new': "flash",
+  	create:"flash",
+  	'*':"isAuthenticated"
+  }
 
   /*
 	// Here's an example of adding some policies to a controller

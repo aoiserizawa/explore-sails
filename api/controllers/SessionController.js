@@ -15,6 +15,8 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
+var bcrypt  = require('bcrypt');
+
 module.exports = {
     
     'new': function(req, res){
@@ -60,8 +62,23 @@ module.exports = {
                     res.redirect('/session/new');
                     return;
                 }
+
+                // Log user In
+                req.session.authenticated = true;
+                req.session.User = user;
+
+                // Redirect to their profile page if user is found
+                res.redirect('/user/show/'+user.id);
             });
         });
+    },
+
+    destroy: function(req, res, next){
+        // wipe out the session (log out)
+        req.session.destroy();
+
+        //Redirect the browser to the sign-in screen 
+        res.redirect('/session/new')
     }
-  
+
 };

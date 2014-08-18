@@ -37,6 +37,11 @@ var UserController = {
 
                 return res.redirect('/user/new');
             }
+
+            // log user in the session
+            req.session.authenticated = true;
+            req.session.User = user;
+
             res.redirect('/user/show/'+user.id);
             //res.json(user);
 
